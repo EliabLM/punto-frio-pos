@@ -1,0 +1,348 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/app/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Modelo de Tenants (Multi-tenancy)
+model Tenant {
+  id         String    @id @default(cuid())
+  name       String
+  subdomain  String    @unique
+  email      String
+  phone      String?
+  address    String?
+  city       String?
+  department String?
+  nit        String?
+  isActive   Boolean   @default(true)
+  isDeleted  Boolean   @default(false)
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  deletedAt  DateTime?
+
+  // Relaciones
+  users          User[]
+  customers      Customer[]
+  suppliers      Supplier[]
+  categories     Category[]
+  products       Product[]
+  sales          Sale[]
+  paymentMethods PaymentMethod[]
+  unitMeasures   UnitMeasure[]
+  stockMovements StockMovement[]
+  systemConfigs  SystemConfig[]
+
+  @@map("tenants")
+}
+
+// Modelo de Usuarios/Administradores
+model User {
+  id        String    @id @default(cuid())
+  tenantId  String
+  email     String    @unique
+  username  String    @unique
+  password  String
+  firstName String
+  lastName  String
+  isActive  Boolean   @default(true)
+  isDeleted Boolean   @default(false)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  // Relaciones
+  tenant Tenant @relation(fields: [tenantId], references: [id])
+  sales  Sale[]
+
+  @@map("users")
+}
+
+// Modelo de Clientes
+model Customer {
+  id           String    @id @default(cuid())
+  tenantId     String
+  firstName    String
+  lastName     String
+  email        String?
+  phone        String?
+  address      String?
+  city         String?
+  department   String?
+  document     String?
+  documentType String?
+  isActive     Boolean   @default(true)
+  isDeleted    Boolean   @default(false)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  deletedAt    DateTime?
+
+  // Relaciones
+  tenant Tenant @relation(fields: [tenantId], references: [id])
+  sales  Sale[]
+
+  @@unique([tenantId, email])
+  @@unique([tenantId, document])
+  @@map("customers")
+}
+
+// Modelo de Proveedores
+model Supplier {
+  id         String    @id @default(cuid())
+  tenantId   String
+  name       String
+  contact    String?
+  email      String?
+  phone      String?
+  address    String?
+  city       String?
+  department String?
+  nit        String?
+  isActive   Boolean   @default(true)
+  isDeleted  Boolean   @default(false)
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  deletedAt  DateTime?
+
+  // Relaciones
+  tenant   Tenant    @relation(fields: [tenantId], references: [id])
+  products Product[]
+
+  @@unique([tenantId, nit])
+  @@map("suppliers")
+}
+
+// Modelo de Categorías
+model Category {
+  id          String    @id @default(cuid())
+  tenantId    String
+  name        String
+  description String?
+  isActive    Boolean   @default(true)
+  isDeleted   Boolean   @default(false)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  deletedAt   DateTime?
+
+  // Relaciones
+  tenant   Tenant    @relation(fields: [tenantId], references: [id])
+  products Product[]
+
+  @@unique([tenantId, name])
+  @@map("categories")
+}
+
+// Modelo de Unidades de Medida (Parametrizable)
+model UnitMeasure {
+  id           String    @id @default(cuid())
+  tenantId     String
+  name         String // "Unidad", "Litro", "Caja", "Botella", etc.
+  abbreviation String // "UN", "L", "CJ", "BOT", etc.
+  isActive     Boolean   @default(true)
+  isDeleted    Boolean   @default(false)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  deletedAt    DateTime?
+
+  // Relaciones
+  tenant    Tenant     @relation(fields: [tenantId], references: [id])
+  products  Product[]
+  saleItems SaleItem[]
+
+  @@unique([tenantId, name])
+  @@unique([tenantId, abbreviation])
+  @@map("unit_measures")
+}
+
+// Modelo de Productos
+model Product {
+  id            String    @id @default(cuid())
+  tenantId      String
+  name          String
+  description   String?
+  barcode       String?
+  sku           String?
+  categoryId    String
+  supplierId    String
+  unitMeasureId String
+  costPrice     Decimal   @db.Decimal(10, 2)
+  salePrice     Decimal   @db.Decimal(10, 2)
+  minStock      Int       @default(0)
+  currentStock  Int       @default(0)
+  alcoholGrade  Float? // Grado de alcohol para licores
+  volume        Float? // Volumen en ml/litros
+  brand         String?
+  isActive      Boolean   @default(true)
+  isDeleted     Boolean   @default(false)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  deletedAt     DateTime?
+
+  // Relaciones
+  tenant         Tenant          @relation(fields: [tenantId], references: [id])
+  category       Category        @relation(fields: [categoryId], references: [id])
+  supplier       Supplier        @relation(fields: [supplierId], references: [id])
+  unitMeasure    UnitMeasure     @relation(fields: [unitMeasureId], references: [id])
+  saleItems      SaleItem[]
+  stockMovements StockMovement[]
+
+  @@unique([tenantId, barcode])
+  @@unique([tenantId, sku])
+  @@map("products")
+}
+
+// Modelo de Movimientos de Inventario
+model StockMovement {
+  id        String            @id @default(cuid())
+  tenantId  String
+  productId String
+  type      StockMovementType
+  quantity  Int
+  reason    String?
+  userId    String?
+  createdAt DateTime          @default(now())
+
+  // Relaciones
+  tenant  Tenant  @relation(fields: [tenantId], references: [id])
+  product Product @relation(fields: [productId], references: [id])
+
+  @@map("stock_movements")
+}
+
+enum StockMovementType {
+  IN // Entrada
+  OUT // Salida
+  ADJUSTMENT // Ajuste
+}
+
+// Modelo de Métodos de Pago
+model PaymentMethod {
+  id        String      @id @default(cuid())
+  tenantId  String
+  name      String
+  type      PaymentType
+  isActive  Boolean     @default(true)
+  isDeleted Boolean     @default(false)
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+  deletedAt DateTime?
+
+  // Relaciones
+  tenant       Tenant        @relation(fields: [tenantId], references: [id])
+  salePayments SalePayment[]
+
+  @@unique([tenantId, name])
+  @@map("payment_methods")
+}
+
+enum PaymentType {
+  CASH
+  CARD
+  TRANSFER
+  CREDIT
+  CHECK
+  OTHER
+}
+
+// Modelo de Ventas
+model Sale {
+  id         String     @id @default(cuid())
+  tenantId   String
+  saleNumber String
+  customerId String?
+  userId     String
+  subtotal   Decimal    @db.Decimal(10, 2)
+  total      Decimal    @db.Decimal(10, 2)
+  status     SaleStatus @default(PAID)
+  saleDate   DateTime   @default(now())
+  dueDate    DateTime? // Fecha de vencimiento para ventas a crédito
+  paidDate   DateTime? // Fecha de pago completo
+  notes      String?
+  isDeleted  Boolean    @default(false) // Soft delete para auditoría
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
+  deletedAt  DateTime?
+
+  // Relaciones
+  tenant       Tenant        @relation(fields: [tenantId], references: [id])
+  customer     Customer?     @relation(fields: [customerId], references: [id])
+  user         User          @relation(fields: [userId], references: [id])
+  saleItems    SaleItem[]
+  salePayments SalePayment[]
+
+  @@unique([tenantId, saleNumber])
+  @@map("sales")
+}
+
+enum SaleStatus {
+  PAID // PAGADA
+  PENDING // PENDIENTE
+  OVERDUE // VENCIDA
+  CANCELLED // CANCELADA
+}
+
+// Modelo de Items de Venta
+model SaleItem {
+  id            String    @id @default(cuid())
+  saleId        String
+  productId     String
+  unitMeasureId String // Unidad de medida específica para este item
+  quantity      Int
+  unitPrice     Decimal   @db.Decimal(10, 2)
+  subtotal      Decimal   @db.Decimal(10, 2)
+  isDeleted     Boolean   @default(false)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  deletedAt     DateTime?
+
+  // Relaciones
+  sale        Sale        @relation(fields: [saleId], references: [id])
+  product     Product     @relation(fields: [productId], references: [id])
+  unitMeasure UnitMeasure @relation(fields: [unitMeasureId], references: [id])
+
+  @@map("sale_items")
+}
+
+// Modelo de Pagos de Venta
+model SalePayment {
+  id              String    @id @default(cuid())
+  saleId          String
+  paymentMethodId String
+  amount          Decimal   @db.Decimal(10, 2)
+  reference       String? // Referencia de transferencia, número de cheque, etc.
+  notes           String?
+  paymentDate     DateTime  @default(now())
+  isDeleted       Boolean   @default(false) // Soft delete para auditoría
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  deletedAt       DateTime?
+
+  // Relaciones
+  sale          Sale          @relation(fields: [saleId], references: [id])
+  paymentMethod PaymentMethod @relation(fields: [paymentMethodId], references: [id])
+
+  @@map("sale_payments")
+}
+
+// Modelo de Configuración del Sistema por Tenant
+model SystemConfig {
+  id        String    @id @default(cuid())
+  tenantId  String
+  key       String
+  value     String
+  type      String    @default("STRING") // STRING, NUMBER, BOOLEAN, JSON
+  isDeleted Boolean   @default(false)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  // Relaciones
+  tenant Tenant @relation(fields: [tenantId], references: [id])
+
+  @@unique([tenantId, key])
+  @@map("system_config")
+}
