@@ -3847,9 +3847,9 @@ export namespace Prisma {
   export type UserMinAggregateOutputType = {
     id: string | null
     tenantId: string | null
+    clerkId: string | null
     email: string | null
     username: string | null
-    password: string | null
     firstName: string | null
     lastName: string | null
     isActive: boolean | null
@@ -3862,9 +3862,9 @@ export namespace Prisma {
   export type UserMaxAggregateOutputType = {
     id: string | null
     tenantId: string | null
+    clerkId: string | null
     email: string | null
     username: string | null
-    password: string | null
     firstName: string | null
     lastName: string | null
     isActive: boolean | null
@@ -3877,9 +3877,9 @@ export namespace Prisma {
   export type UserCountAggregateOutputType = {
     id: number
     tenantId: number
+    clerkId: number
     email: number
     username: number
-    password: number
     firstName: number
     lastName: number
     isActive: number
@@ -3894,9 +3894,9 @@ export namespace Prisma {
   export type UserMinAggregateInputType = {
     id?: true
     tenantId?: true
+    clerkId?: true
     email?: true
     username?: true
-    password?: true
     firstName?: true
     lastName?: true
     isActive?: true
@@ -3909,9 +3909,9 @@ export namespace Prisma {
   export type UserMaxAggregateInputType = {
     id?: true
     tenantId?: true
+    clerkId?: true
     email?: true
     username?: true
-    password?: true
     firstName?: true
     lastName?: true
     isActive?: true
@@ -3924,9 +3924,9 @@ export namespace Prisma {
   export type UserCountAggregateInputType = {
     id?: true
     tenantId?: true
+    clerkId?: true
     email?: true
     username?: true
-    password?: true
     firstName?: true
     lastName?: true
     isActive?: true
@@ -4012,9 +4012,9 @@ export namespace Prisma {
   export type UserGroupByOutputType = {
     id: string
     tenantId: string
+    clerkId: string
     email: string
     username: string
-    password: string
     firstName: string
     lastName: string
     isActive: boolean
@@ -4044,9 +4044,9 @@ export namespace Prisma {
   export type UserSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     tenantId?: boolean
+    clerkId?: boolean
     email?: boolean
     username?: boolean
-    password?: boolean
     firstName?: boolean
     lastName?: boolean
     isActive?: boolean
@@ -4062,9 +4062,9 @@ export namespace Prisma {
   export type UserSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     tenantId?: boolean
+    clerkId?: boolean
     email?: boolean
     username?: boolean
-    password?: boolean
     firstName?: boolean
     lastName?: boolean
     isActive?: boolean
@@ -4078,9 +4078,9 @@ export namespace Prisma {
   export type UserSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     tenantId?: boolean
+    clerkId?: boolean
     email?: boolean
     username?: boolean
-    password?: boolean
     firstName?: boolean
     lastName?: boolean
     isActive?: boolean
@@ -4094,9 +4094,9 @@ export namespace Prisma {
   export type UserSelectScalar = {
     id?: boolean
     tenantId?: boolean
+    clerkId?: boolean
     email?: boolean
     username?: boolean
-    password?: boolean
     firstName?: boolean
     lastName?: boolean
     isActive?: boolean
@@ -4106,7 +4106,7 @@ export namespace Prisma {
     deletedAt?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "email" | "username" | "password" | "firstName" | "lastName" | "isActive" | "isDeleted" | "createdAt" | "updatedAt" | "deletedAt", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "clerkId" | "email" | "username" | "firstName" | "lastName" | "isActive" | "isDeleted" | "createdAt" | "updatedAt" | "deletedAt", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
     sales?: boolean | User$salesArgs<ExtArgs>
@@ -4128,9 +4128,9 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: string
       tenantId: string
+      clerkId: string
       email: string
       username: string
-      password: string
       firstName: string
       lastName: string
       isActive: boolean
@@ -4565,9 +4565,9 @@ export namespace Prisma {
   interface UserFieldRefs {
     readonly id: FieldRef<"User", 'String'>
     readonly tenantId: FieldRef<"User", 'String'>
+    readonly clerkId: FieldRef<"User", 'String'>
     readonly email: FieldRef<"User", 'String'>
     readonly username: FieldRef<"User", 'String'>
-    readonly password: FieldRef<"User", 'String'>
     readonly firstName: FieldRef<"User", 'String'>
     readonly lastName: FieldRef<"User", 'String'>
     readonly isActive: FieldRef<"User", 'Boolean'>
@@ -18302,9 +18302,9 @@ export namespace Prisma {
   export const UserScalarFieldEnum: {
     id: 'id',
     tenantId: 'tenantId',
+    clerkId: 'clerkId',
     email: 'email',
     username: 'username',
-    password: 'password',
     firstName: 'firstName',
     lastName: 'lastName',
     isActive: 'isActive',
@@ -18801,9 +18801,9 @@ export namespace Prisma {
     NOT?: UserWhereInput | UserWhereInput[]
     id?: StringFilter<"User"> | string
     tenantId?: StringFilter<"User"> | string
+    clerkId?: StringFilter<"User"> | string
     email?: StringFilter<"User"> | string
     username?: StringFilter<"User"> | string
-    password?: StringFilter<"User"> | string
     firstName?: StringFilter<"User"> | string
     lastName?: StringFilter<"User"> | string
     isActive?: BoolFilter<"User"> | boolean
@@ -18818,9 +18818,9 @@ export namespace Prisma {
   export type UserOrderByWithRelationInput = {
     id?: SortOrder
     tenantId?: SortOrder
+    clerkId?: SortOrder
     email?: SortOrder
     username?: SortOrder
-    password?: SortOrder
     firstName?: SortOrder
     lastName?: SortOrder
     isActive?: SortOrder
@@ -18834,13 +18834,13 @@ export namespace Prisma {
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
     id?: string
+    clerkId?: string
     email?: string
     username?: string
     AND?: UserWhereInput | UserWhereInput[]
     OR?: UserWhereInput[]
     NOT?: UserWhereInput | UserWhereInput[]
     tenantId?: StringFilter<"User"> | string
-    password?: StringFilter<"User"> | string
     firstName?: StringFilter<"User"> | string
     lastName?: StringFilter<"User"> | string
     isActive?: BoolFilter<"User"> | boolean
@@ -18850,14 +18850,14 @@ export namespace Prisma {
     deletedAt?: DateTimeNullableFilter<"User"> | Date | string | null
     tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
     sales?: SaleListRelationFilter
-  }, "id" | "email" | "username">
+  }, "id" | "clerkId" | "email" | "username">
 
   export type UserOrderByWithAggregationInput = {
     id?: SortOrder
     tenantId?: SortOrder
+    clerkId?: SortOrder
     email?: SortOrder
     username?: SortOrder
-    password?: SortOrder
     firstName?: SortOrder
     lastName?: SortOrder
     isActive?: SortOrder
@@ -18876,9 +18876,9 @@ export namespace Prisma {
     NOT?: UserScalarWhereWithAggregatesInput | UserScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"User"> | string
     tenantId?: StringWithAggregatesFilter<"User"> | string
+    clerkId?: StringWithAggregatesFilter<"User"> | string
     email?: StringWithAggregatesFilter<"User"> | string
     username?: StringWithAggregatesFilter<"User"> | string
-    password?: StringWithAggregatesFilter<"User"> | string
     firstName?: StringWithAggregatesFilter<"User"> | string
     lastName?: StringWithAggregatesFilter<"User"> | string
     isActive?: BoolWithAggregatesFilter<"User"> | boolean
@@ -20127,9 +20127,9 @@ export namespace Prisma {
 
   export type UserCreateInput = {
     id?: string
+    clerkId: string
     email: string
     username: string
-    password: string
     firstName: string
     lastName: string
     isActive?: boolean
@@ -20144,9 +20144,9 @@ export namespace Prisma {
   export type UserUncheckedCreateInput = {
     id?: string
     tenantId: string
+    clerkId: string
     email: string
     username: string
-    password: string
     firstName: string
     lastName: string
     isActive?: boolean
@@ -20159,9 +20159,9 @@ export namespace Prisma {
 
   export type UserUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    clerkId?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
-    password?: StringFieldUpdateOperationsInput | string
     firstName?: StringFieldUpdateOperationsInput | string
     lastName?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
@@ -20176,9 +20176,9 @@ export namespace Prisma {
   export type UserUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     tenantId?: StringFieldUpdateOperationsInput | string
+    clerkId?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
-    password?: StringFieldUpdateOperationsInput | string
     firstName?: StringFieldUpdateOperationsInput | string
     lastName?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
@@ -20192,9 +20192,9 @@ export namespace Prisma {
   export type UserCreateManyInput = {
     id?: string
     tenantId: string
+    clerkId: string
     email: string
     username: string
-    password: string
     firstName: string
     lastName: string
     isActive?: boolean
@@ -20206,9 +20206,9 @@ export namespace Prisma {
 
   export type UserUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
+    clerkId?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
-    password?: StringFieldUpdateOperationsInput | string
     firstName?: StringFieldUpdateOperationsInput | string
     lastName?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
@@ -20221,9 +20221,9 @@ export namespace Prisma {
   export type UserUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     tenantId?: StringFieldUpdateOperationsInput | string
+    clerkId?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
-    password?: StringFieldUpdateOperationsInput | string
     firstName?: StringFieldUpdateOperationsInput | string
     lastName?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
@@ -21715,9 +21715,9 @@ export namespace Prisma {
   export type UserCountOrderByAggregateInput = {
     id?: SortOrder
     tenantId?: SortOrder
+    clerkId?: SortOrder
     email?: SortOrder
     username?: SortOrder
-    password?: SortOrder
     firstName?: SortOrder
     lastName?: SortOrder
     isActive?: SortOrder
@@ -21730,9 +21730,9 @@ export namespace Prisma {
   export type UserMaxOrderByAggregateInput = {
     id?: SortOrder
     tenantId?: SortOrder
+    clerkId?: SortOrder
     email?: SortOrder
     username?: SortOrder
-    password?: SortOrder
     firstName?: SortOrder
     lastName?: SortOrder
     isActive?: SortOrder
@@ -21745,9 +21745,9 @@ export namespace Prisma {
   export type UserMinOrderByAggregateInput = {
     id?: SortOrder
     tenantId?: SortOrder
+    clerkId?: SortOrder
     email?: SortOrder
     username?: SortOrder
-    password?: SortOrder
     firstName?: SortOrder
     lastName?: SortOrder
     isActive?: SortOrder
@@ -24076,9 +24076,9 @@ export namespace Prisma {
 
   export type UserCreateWithoutTenantInput = {
     id?: string
+    clerkId: string
     email: string
     username: string
-    password: string
     firstName: string
     lastName: string
     isActive?: boolean
@@ -24091,9 +24091,9 @@ export namespace Prisma {
 
   export type UserUncheckedCreateWithoutTenantInput = {
     id?: string
+    clerkId: string
     email: string
     username: string
-    password: string
     firstName: string
     lastName: string
     isActive?: boolean
@@ -24506,9 +24506,9 @@ export namespace Prisma {
     NOT?: UserScalarWhereInput | UserScalarWhereInput[]
     id?: StringFilter<"User"> | string
     tenantId?: StringFilter<"User"> | string
+    clerkId?: StringFilter<"User"> | string
     email?: StringFilter<"User"> | string
     username?: StringFilter<"User"> | string
-    password?: StringFilter<"User"> | string
     firstName?: StringFilter<"User"> | string
     lastName?: StringFilter<"User"> | string
     isActive?: BoolFilter<"User"> | boolean
@@ -26822,9 +26822,9 @@ export namespace Prisma {
 
   export type UserCreateWithoutSalesInput = {
     id?: string
+    clerkId: string
     email: string
     username: string
-    password: string
     firstName: string
     lastName: string
     isActive?: boolean
@@ -26838,9 +26838,9 @@ export namespace Prisma {
   export type UserUncheckedCreateWithoutSalesInput = {
     id?: string
     tenantId: string
+    clerkId: string
     email: string
     username: string
-    password: string
     firstName: string
     lastName: string
     isActive?: boolean
@@ -27052,9 +27052,9 @@ export namespace Prisma {
 
   export type UserUpdateWithoutSalesInput = {
     id?: StringFieldUpdateOperationsInput | string
+    clerkId?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
-    password?: StringFieldUpdateOperationsInput | string
     firstName?: StringFieldUpdateOperationsInput | string
     lastName?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
@@ -27068,9 +27068,9 @@ export namespace Prisma {
   export type UserUncheckedUpdateWithoutSalesInput = {
     id?: StringFieldUpdateOperationsInput | string
     tenantId?: StringFieldUpdateOperationsInput | string
+    clerkId?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
-    password?: StringFieldUpdateOperationsInput | string
     firstName?: StringFieldUpdateOperationsInput | string
     lastName?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
@@ -27674,9 +27674,9 @@ export namespace Prisma {
 
   export type UserCreateManyTenantInput = {
     id?: string
+    clerkId: string
     email: string
     username: string
-    password: string
     firstName: string
     lastName: string
     isActive?: boolean
@@ -27818,9 +27818,9 @@ export namespace Prisma {
 
   export type UserUpdateWithoutTenantInput = {
     id?: StringFieldUpdateOperationsInput | string
+    clerkId?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
-    password?: StringFieldUpdateOperationsInput | string
     firstName?: StringFieldUpdateOperationsInput | string
     lastName?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
@@ -27833,9 +27833,9 @@ export namespace Prisma {
 
   export type UserUncheckedUpdateWithoutTenantInput = {
     id?: StringFieldUpdateOperationsInput | string
+    clerkId?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
-    password?: StringFieldUpdateOperationsInput | string
     firstName?: StringFieldUpdateOperationsInput | string
     lastName?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
@@ -27848,9 +27848,9 @@ export namespace Prisma {
 
   export type UserUncheckedUpdateManyWithoutTenantInput = {
     id?: StringFieldUpdateOperationsInput | string
+    clerkId?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
-    password?: StringFieldUpdateOperationsInput | string
     firstName?: StringFieldUpdateOperationsInput | string
     lastName?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
