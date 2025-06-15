@@ -1,6 +1,7 @@
 // app/api/create-tenant/route.ts
 import { NextRequest, NextResponse } from 'next/server';
-import { auth } from '@clerk/nextjs/server';
+import { auth, clerkClient } from '@clerk/nextjs/server';
+
 import { PrismaClient } from '@/app/generated/prisma';
 
 const prisma = new PrismaClient();
@@ -177,6 +178,12 @@ export async function POST(request: NextRequest) {
             });
 
             return { tenant, user };
+        });
+
+        (await clerkClient()).users.updateUserMetadata(clerkUserId, {
+            privateMetadata: {
+                tenantId: result.tenant.id
+            }
         });
 
         return NextResponse.json({
