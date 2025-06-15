@@ -1,23 +1,21 @@
-"use client"
+'use client';
 
-import * as React from "react"
+import { useEffect, useState } from 'react';
 import {
-  BookOpen,
-  Bot,
   Command,
-  Frame,
   LifeBuoy,
-  Map,
-  PieChart,
   Send,
-  Settings2,
-  SquareTerminal,
-} from "lucide-react"
+  ShoppingCart,
+  Package,
+  Box,
+  Users,
+  Store,
+  Settings,
+} from 'lucide-react';
 
-import { NavMain } from "@/components/nav-main"
-import { NavProjects } from "@/components/nav-projects"
-import { NavSecondary } from "@/components/nav-secondary"
-import { NavUser } from "@/components/nav-user"
+import { NavMain } from '@/components/nav-main';
+import { NavSecondary } from '@/components/nav-secondary';
+import { NavUser } from '@/components/nav-user';
 import {
   Sidebar,
   SidebarContent,
@@ -26,146 +24,158 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from "@/components/ui/sidebar"
+} from '@/components/ui/sidebar';
+import { getSessionUser } from '@/actions/auth/get-session-user';
+import { User } from '@/app/generated/prisma';
+import { redirect } from 'next/navigation';
 
 const data = {
-  user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
-  },
   navMain: [
     {
-      title: "Playground",
-      url: "#",
-      icon: SquareTerminal,
+      title: 'Ventas',
+      url: '/ventas/historial',
+      icon: ShoppingCart,
       isActive: true,
       items: [
         {
-          title: "History",
-          url: "#",
+          title: 'Nueva Venta',
+          url: '/ventas/nueva',
         },
         {
-          title: "Starred",
-          url: "#",
-        },
-        {
-          title: "Settings",
-          url: "#",
+          title: 'Historial',
+          url: '/ventas/historial',
         },
       ],
     },
     {
-      title: "Models",
-      url: "#",
-      icon: Bot,
+      title: 'Inventario',
+      url: '/inventario/stock',
+      icon: Package,
       items: [
         {
-          title: "Genesis",
-          url: "#",
+          title: 'Stock',
+          url: '/inventario/stock',
         },
         {
-          title: "Explorer",
-          url: "#",
-        },
-        {
-          title: "Quantum",
-          url: "#",
+          title: 'Ajustes',
+          url: '/inventario/ajustes',
         },
       ],
     },
     {
-      title: "Documentation",
-      url: "#",
-      icon: BookOpen,
+      title: 'Productos',
+      url: '/productos/lista',
+      icon: Box,
       items: [
         {
-          title: "Introduction",
-          url: "#",
+          title: 'Lista',
+          url: '/productos/lista',
         },
         {
-          title: "Get Started",
-          url: "#",
-        },
-        {
-          title: "Tutorials",
-          url: "#",
-        },
-        {
-          title: "Changelog",
-          url: "#",
+          title: 'Nuevo',
+          url: '/productos/nuevo',
         },
       ],
     },
     {
-      title: "Settings",
-      url: "#",
-      icon: Settings2,
+      title: 'Proveedores',
+      url: '/proveedores/lista',
+      icon: Store,
       items: [
         {
-          title: "General",
-          url: "#",
+          title: 'Lista',
+          url: '/proveedores/lista',
         },
         {
-          title: "Team",
-          url: "#",
+          title: 'Nuevo',
+          url: '/proveedores/nuevo',
+        },
+      ],
+    },
+    {
+      title: 'Clientes',
+      url: '/clientes/lista',
+      icon: Users,
+      items: [
+        {
+          title: 'Lista',
+          url: '/clientes/lista',
         },
         {
-          title: "Billing",
-          url: "#",
+          title: 'Nuevo',
+          url: '/clientes/nuevo',
+        },
+      ],
+    },
+    {
+      title: 'Parametrización',
+      url: '#',
+      icon: Settings,
+      items: [
+        {
+          title: 'Categorías',
+          url: '/parametrizacion/categorias',
         },
         {
-          title: "Limits",
-          url: "#",
+          title: 'Unidades de Medida',
+          url: '/parametrizacion/unidades',
+        },
+        {
+          title: 'Métodos de Pago',
+          url: '/parametrizacion/metodos-pago',
         },
       ],
     },
   ],
   navSecondary: [
     {
-      title: "Support",
-      url: "#",
+      title: 'Soporte',
+      url: '#',
       icon: LifeBuoy,
     },
     {
-      title: "Feedback",
-      url: "#",
+      title: 'Feedback',
+      url: '#',
       icon: Send,
     },
   ],
   projects: [
     {
-      name: "Design Engineering",
-      url: "#",
-      icon: Frame,
-    },
-    {
-      name: "Sales & Marketing",
-      url: "#",
-      icon: PieChart,
-    },
-    {
-      name: "Travel",
-      url: "#",
-      icon: Map,
+      name: 'Punto Frio POS',
+      url: '/',
+      icon: Command,
     },
   ],
-}
+};
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const [user, setUser] = useState<User | null>(null);
+
+  const getUser = async () => {
+    const user = await getSessionUser();
+    if (!user) redirect('/auth/login');
+    setUser(user);
+  };
+
+  useEffect(() => {
+    getUser();
+  }, []);
+
   return (
-    <Sidebar variant="inset" {...props}>
+    <Sidebar variant='inset' {...props}>
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton size="lg" asChild>
-              <a href="#">
-                <div className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
-                  <Command className="size-4" />
+            <SidebarMenuButton size='lg' asChild>
+              <a href='#'>
+                <div className='bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg'>
+                  <Command className='size-4' />
                 </div>
-                <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate font-medium">Acme Inc</span>
-                  <span className="truncate text-xs">Enterprise</span>
+                <div className='grid flex-1 text-left text-sm leading-tight'>
+                  <span className='truncate font-medium'>Punto Frio POS</span>
+                  <span className='truncate text-xs'>
+                    Sistema de Ventas e Inventario
+                  </span>
                 </div>
               </a>
             </SidebarMenuButton>
@@ -174,12 +184,17 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={data.navMain} />
-        <NavProjects projects={data.projects} />
-        <NavSecondary items={data.navSecondary} className="mt-auto" />
+        <NavSecondary items={data.navSecondary} className='mt-auto' />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={data.user} />
+        <NavUser
+          user={{
+            name: user?.firstName + ' ' + user?.lastName || '',
+            email: user?.email || '',
+            avatar: '',
+          }}
+        />
       </SidebarFooter>
     </Sidebar>
-  )
+  );
 }
